@@ -99,8 +99,12 @@ let add_help speclist =
     try ignore (assoc3 "--help" speclist); []
     with Not_found ->
             ["--help", Unit help_action, " Display this list of options"]
+  and add3 =
+    try ignore (assoc3 "-h" speclist); []
+    with Not_found ->
+            ["-h", Unit help_action, " Display this list of options"]
   in
-  speclist @ (add1 @ add2)
+  speclist @ (add1 @ add2 @ add3)
 
 
 let usage_b buf speclist errmsg =
@@ -144,6 +148,7 @@ let parse_and_expand_argv_dynamic_aux allow_expand current argv speclist anonfun
     let progname =
       if initpos < (Array.length !argv) then !argv.(initpos) else "(?)" in
     begin match error with
+      | Unknown "-h" -> ()
       | Unknown "-help" -> ()
       | Unknown "--help" -> ()
       | Unknown s ->
@@ -157,7 +162,7 @@ let parse_and_expand_argv_dynamic_aux allow_expand current argv speclist anonfun
           bprintf b "%s: %s.\n" progname s
     end;
     usage_b b !speclist errmsg;
-    if error = Unknown "-help" || error = Unknown "--help"
+    if error = Unknown "-help" || error = Unknown "--help" || error = Unknown "-h"
     then Help (Buffer.contents b)
     else Bad (Buffer.contents b)
   in
