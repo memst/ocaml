@@ -68,6 +68,7 @@ external mkdir: string -> int -> unit = "caml_sys_mkdir"
 external rmdir: string -> unit = "caml_sys_rmdir"
 external getcwd: unit -> string = "caml_sys_getcwd"
 external readdir : string -> string array = "caml_sys_read_directory"
+external gettimeofday : unit -> float = "caml_sys_gettimeofday"
 
 let interactive = ref false
 

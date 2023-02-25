@@ -760,6 +760,6 @@ let parse_arguments ?(current=ref 0) argv f program =
         |> String.split_on_char '\000'
         |> String.concat "" in
       let help_msg =
-        Printf.sprintf "Usage: %s <options> <files>\nOptions are:" program in
+        Printf.sprintf "%f\nUsage: %s <options> <files>\nOptions are:" (Sys.gettimeofday () ) program in
       Printf.printf "%s\n%s" help_msg err_msg;
       raise (Exit_with_status 0)

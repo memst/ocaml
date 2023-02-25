@@ -758,3 +758,16 @@ CAMLprim value caml_sys_isatty(value chan)
 
   return ret;
 }
+
+double caml_sys_gettimeofday_unboxed(value unit)
+{
+  struct timeval tp;
+  gettimeofday(&tp, NULL);
+  return ((double) tp.tv_sec + (double) tp.tv_usec / 1e6);
+}
+
+CAMLprim value caml_sys_gettimeofday(value unit)
+{
+  return caml_copy_double(caml_sys_gettimeofday_unboxed(unit));
+}
+
